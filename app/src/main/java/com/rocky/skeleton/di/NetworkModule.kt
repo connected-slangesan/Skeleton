@@ -1,5 +1,6 @@
 package com.rocky.skeleton.di
 
+import com.rocky.skeleton.home.api.CharacterApi
 import com.rocky.skeleton.utils.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -18,5 +19,10 @@ class NetworkModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    fun characterApi(retrofit: Retrofit) : CharacterApi {
+        return retrofit.create(CharacterApi::class.java)
     }
 }
