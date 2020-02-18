@@ -11,13 +11,21 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(val charactersRepository: CharactersRepository) : ViewModel() {
 
     private var charactersData: BehaviorSubject<CharacterResponse> = BehaviorSubject.create()
+    private var loading: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     //Return a Observable back to Activity to monitor the change in data
     fun observeCharacterData() : Observable<CharacterResponse> {
-        return charactersData.subscribeOn(Schedulers.io())
+        return charactersData
+    }
+
+    //Return a Observable back to Activity to monitor the Loading
+    fun observeLoading() : Observable<Boolean> {
+        return loading
     }
 
     fun fetchCharacters() {
+        loadingListener(true)
+
         charactersRepository.fetchCharacters()?.subscribe(
             { data ->
                 val response = CharacterResponse(true)
@@ -30,5 +38,9 @@ class HomeViewModel @Inject constructor(val charactersRepository: CharactersRepo
                 charactersData.onNext(response)
             }
         )
+    }
+
+    fun loadingListener(shouldShow: Boolean) {
+        loading.onNext(shouldShow)
     }
 }

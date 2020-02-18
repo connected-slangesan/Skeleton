@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Skeleton</string>
     <string name="fetch_characters">Fetch Characters</string>
+    <string name="offline_storage">Offline Storage</string>
 </resources>

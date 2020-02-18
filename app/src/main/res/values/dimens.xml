@@ -5,4 +5,5 @@
     <dimen name="d_15">15sp</dimen>
     <dimen name="d_200">200sp</dimen>
     <dimen name="d_10">10sp</dimen>
+    <dimen name="d_150">150sp</dimen>
 </resources>

@@ -17,12 +17,22 @@
 
         <Button
             android:id="@+id/refresh"
-            android:layout_width="@dimen/d_200"
-            android:layout_height="@dimen/d_50"
+            android:layout_width="@dimen/d_150"
+            android:layout_height="wrap_content"
             android:onClick="@{()->model.fetchCharacters()}"
             android:text="@string/fetch_characters"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/d_10"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/offline"
+            android:layout_width="@dimen/d_150"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d_10"
+            android:onClick="@{()->model.fetchCharacters()}"
+            android:text="@string/offline_storage"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -32,6 +42,16 @@
             android:layout_marginTop="@dimen/d_15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/refresh"/>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

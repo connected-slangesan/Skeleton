@@ -1,8 +1,10 @@
 package com.rocky.skeleton.home.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +15,10 @@ import com.rocky.skeleton.databinding.ActivityMainBinding
 import com.rocky.skeleton.home.CharacterAdapter
 import com.rocky.skeleton.home.viewmodel.HomeViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -22,6 +26,8 @@ class HomeActivity : AppCompatActivity() {
     lateinit var factory: ViewModelProvider.Factory
 
     lateinit var homeViewModel: HomeViewModel
+
+    lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +43,8 @@ class HomeActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
 
+                homeViewModel.loadingListener(false)
+
                 if (response.isSuccess) {
                     list.adapter =
                         response.data?.characters?.let { CharacterAdapter(it, this, homeViewModel) }
@@ -44,6 +52,15 @@ class HomeActivity : AppCompatActivity() {
                     Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
                 }
 
+            })
+
+        homeViewModel.observeLoading()
+            .subscribe({ show->
+                if (show) {
+                    progress.visibility = View.VISIBLE
+                } else {
+                    progress.visibility = View.GONE
+                }
             })
     }
 
