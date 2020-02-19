@@ -1,6 +1,7 @@
 package com.rocky.skeleton
 
 import android.app.Application
+import com.rocky.skeleton.di.ApplicationModule
 
 class MyApplication : Application() {
 
@@ -10,7 +11,7 @@ class MyApplication : Application() {
         super.onCreate()
 
 
-        component = DaggerApplicationComponent.builder().build()
+        component = DaggerApplicationComponent.builder().applicationModule(ApplicationModule(this)).build()
     }
 
 

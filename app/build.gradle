@@ -32,6 +32,7 @@ def retrofitVersion = '2.2.0'
 def rxJavaVersion = '2.1.1'
 def daggerVersion = '2.26'
 def picassoVersion = '2.71828'
+def roomVersion = '2.2.3'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -63,4 +64,8 @@ dependencies {
 
     //Image Handling
     implementation "com.squareup.picasso:picasso:$picassoVersion"
+
+    //Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 }

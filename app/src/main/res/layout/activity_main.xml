@@ -30,7 +30,7 @@
             android:layout_width="@dimen/d_150"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/d_10"
-            android:onClick="@{()->model.fetchCharacters()}"
+            android:onClick="@{()->model.fetchCharactersFromDB()}"
             android:text="@string/offline_storage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>

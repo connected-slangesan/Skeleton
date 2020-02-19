@@ -11,10 +11,12 @@ import com.rocky.skeleton.home.model.Character
 import com.rocky.skeleton.home.viewmodel.HomeViewModel
 
 class CharacterAdapter(
-    val items: List<Character>,
+    var items: List<Character>,
     val context: Context?,
     val model: HomeViewModel
 ) : RecyclerView.Adapter<CharacterAdapter.ViewHolder>() {
+
+    var mItems: List<Character>? = items
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = DataBindingUtil.inflate<ItemViewBinding>(
@@ -37,9 +39,14 @@ class CharacterAdapter(
     class ViewHolder(
         val binding: ItemViewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Character, viewModel: HomeViewModel) {
+        fun bind(data: Character?, viewModel: HomeViewModel) {
             binding.character = data
             binding.model = viewModel
         }
+    }
+
+    fun refreshItems(items: List<Character>) {
+        this.items = items
+        notifyDataSetChanged()
     }
 }

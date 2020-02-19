@@ -29,6 +29,8 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var progressBar: ProgressBar
 
+    lateinit var adapter: CharacterAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,8 +48,12 @@ class HomeActivity : AppCompatActivity() {
                 homeViewModel.loadingListener(false)
 
                 if (response.isSuccess) {
-                    list.adapter =
-                        response.data?.characters?.let { CharacterAdapter(it, this, homeViewModel) }
+                    response.data?.let {
+                        adapter.refreshItems(it)
+                        homeViewModel.saveForOfflineStorage(it)
+                    }
+
+
                 } else {
                     Toast.makeText(this, response.error, Toast.LENGTH_SHORT).show()
                 }
@@ -62,6 +68,19 @@ class HomeActivity : AppCompatActivity() {
                     progress.visibility = View.GONE
                 }
             })
+
+        homeViewModel.getStoredCharactersFromDB()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ chars ->
+                if (chars.size > 0) {
+                    adapter.refreshItems(chars)
+                } else {
+                    Toast.makeText(this, "No Items Stored", Toast.LENGTH_SHORT).show()
+                }
+            },
+                { error ->
+                    Toast.makeText(this, "" + error, Toast.LENGTH_SHORT).show()
+                })
     }
 
     private fun init() {
@@ -83,5 +102,9 @@ class HomeActivity : AppCompatActivity() {
                 false
             )
         )
+
+        //Init Adapter
+        adapter = CharacterAdapter(arrayListOf(),this, homeViewModel)
+        list.adapter = adapter
     }
 }
